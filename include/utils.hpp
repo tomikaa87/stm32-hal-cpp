@@ -49,12 +49,6 @@ namespace utils
         static const uint32_t value = 0;
     };
 
-    template <>
-    struct flag_disjunction<0>
-    {
-        static const uint32_t value = 1;
-    };
-
 }
 
 #else
