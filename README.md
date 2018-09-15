@@ -51,3 +51,20 @@ void gpio_test()
 ```
 In this example we use the same way to define the output pins, but as you can see, we pass multiple pin indices to `gpio::pins<>`. This way the initialization and all the operations are done in a single step without any overhead.
 Calling `set()` will output a logical 1 on all the pins.
+
+## Setup pin B4 as a digital input with internal pull-up and read it
+```cpp
+void gpio_test()
+{
+    using input_b4 = gpio::input_pin<gpio::gpio_pin<
+            gpio::port::b,
+            gpio::pins<4>,
+            gpio::input_mode,
+            gpio::speed::high,
+            gpio::pull::up>>;
+
+    input_b4::init();
+    bool high = input_b4::read();
+}
+```
+In this example we used `gpio::input_mode` to instruct the API to setup the pin as an input. `gpio::pull::up` enables the internal pull-up resistor. If we `read()` the port's value when it's unconnected or connected to VCC, we will get a `true` value, but if we connect the pin to GND, we will get `false`.
