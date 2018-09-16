@@ -181,6 +181,8 @@ namespace spi
             handle()->Init.CRCCalculation = crc_calc_enabled ? SPI_CRCCALCULATION_ENABLE : SPI_CRCCALCULATION_DISABLE;
             handle()->Init.CRCPolynomial = crc_polynomial;
 
+            peripheral::enable_clock();
+
             return HAL_SPI_Init(handle()) == HAL_OK;
         }
 
