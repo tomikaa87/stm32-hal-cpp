@@ -188,6 +188,21 @@ namespace spi
         {
             return HAL_SPI_Init(handle()) == HAL_OK;
         }
+
+        inline static HAL_StatusTypeDef transmit(uint8_t* data, uint16_t size, uint32_t timeout = HAL_MAX_DELAY)
+        {
+            return HAL_SPI_Transmit(handle(), data, size, timeout);
+        }
+
+        inline static HAL_StatusTypeDef receive(uint8_t* data, uint16_t size, uint32_t timeout = HAL_MAX_DELAY)
+        {
+            return HAL_SPI_Receive(handle(), data, size, timeout);
+        }
+
+        inline static HAL_StatusTypeDef transfer(uint8_t* txdata, uint8_t* rxdata, uint16_t size, uint32_t timeout = HAL_MAX_DELAY)
+        {
+            return HAL_SPI_TransmitReceive(handle(), txdata, rxdata, size, timeout);
+        }
     };
 }
 
