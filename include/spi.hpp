@@ -139,8 +139,8 @@ namespace spi
               clock_polarity::clock_polarity _clock_polarity = clock_polarity::low,
               bool _crc_calc_enabled = false,
               uint32_t _crc_polynomial = 0>
-	struct device
-	{
+    struct device
+    {
         using peripheral = _peripheral;
         static const auto mode = _mode;
         static const auto data_size = _data_size;
@@ -188,7 +188,7 @@ namespace spi
         {
             return HAL_SPI_Init(handle()) == HAL_OK;
         }
-	};
+    };
 }
 
 #else
