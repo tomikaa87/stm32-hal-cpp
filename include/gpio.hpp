@@ -11,7 +11,6 @@
 #if __cplusplus >= 201103l
 
 #include <stdint.h>
-#include <initializer_list>
 
 #include "stm32f1xx_hal.h"
 #include "stm32f1xx_hal_gpio.h"
@@ -20,73 +19,54 @@
 
 namespace gpio
 {
-
     namespace port
     {
-        struct a
-        {
-            static inline GPIO_TypeDef* get()
-            {
-                return GPIOA;
-            }
-
-            static inline void enable_clock()
-            {
-                __HAL_RCC_GPIOA_CLK_ENABLE();
-            }
+        #define GPIO_STRUCT(_PORT, _NAME)           \
+        struct _NAME                                \
+        {                                           \
+            static inline GPIO_TypeDef* get()       \
+            {                                       \
+                return _PORT;                       \
+            }                                       \
+                                                    \
+            static inline void enable_clock()       \
+            {                                       \
+                __HAL_RCC_##_PORT##_CLK_ENABLE();   \
+            }                                       \
+                                                    \
+            static inline void disable_clock()      \
+            {                                       \
+                __HAL_RCC_##_PORT##_CLK_DISABLE();  \
+            }                                       \
         };
 
-        struct b
-        {
-            static inline GPIO_TypeDef* get()
-            {
-                return GPIOB;
-            }
+#ifdef GPIOA
+        GPIO_STRUCT(GPIOA, a)
+#endif
 
-            static inline void enable_clock()
-            {
-                __HAL_RCC_GPIOB_CLK_ENABLE();
-            }
-        };
+#ifdef GPIOB
+        GPIO_STRUCT(GPIOB, b)
+#endif
 
-        struct c
-        {
-            static inline GPIO_TypeDef* get()
-            {
-                return GPIOC;
-            }
+#ifdef GPIOC
+        GPIO_STRUCT(GPIOC, c)
+#endif
 
-            static inline void enable_clock()
-            {
-                __HAL_RCC_GPIOC_CLK_ENABLE();
-            }
-        };
+#ifdef GPIOD
+        GPIO_STRUCT(GPIOD, d)
+#endif
 
-        struct d
-        {
-            static inline GPIO_TypeDef* get()
-            {
-                return GPIOD;
-            }
+#ifdef GPIOE
+        GPIO_STRUCT(GPIOE, e)
+#endif
 
-            static inline void enable_clock()
-            {
-                __HAL_RCC_GPIOD_CLK_ENABLE();
-            }
-        };
+#ifdef GPIOF
+        GPIO_STRUCT(GPIOF, f)
+#endif
 
-        struct e
-        {
-            static inline GPIO_TypeDef* get()
-            {
-                return GPIOE;
-            }
-
-            static inline void enable_clock()
-            {
-                __HAL_RCC_GPIOE_CLK_ENABLE();
-            }
-        };
+#ifdef GPIOG
+        GPIO_STRUCT(GPIOG, g)
+#endif
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -230,8 +210,8 @@ namespace gpio
 
         inline static void init()
         {
-            static_assert(pin::mode == GPIO_MODE_INPUT,
-                    "pin must be configured as input");
+            static_assert(pin::mode == input_mode::value,
+                    "pin must be configured as an input");
 
             pin::init();
         }
@@ -250,8 +230,8 @@ namespace gpio
 
         inline static void init()
         {
-            static_assert(pin::mode == GPIO_MODE_OUTPUT_PP || pin::mode == GPIO_MODE_OUTPUT_OD,
-                    "pin must be configured as output");
+            static_assert(pin::mode == output_od_mode::value || pin::mode == output_pp_mode::value,
+                    "pin must be configured as an output");
 
             pin::init();
         }
