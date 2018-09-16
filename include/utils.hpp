@@ -49,6 +49,29 @@ namespace utils
         static const uint32_t value = 0;
     };
 
+    //////////////////////////////////////////////////////////////////////////
+
+    namespace detail
+    {
+        template <uint32_t _value, uint8_t _bit_index>
+        struct bit_weight_impl
+        {
+            static const uint8_t value =
+                (_value & (1 << _bit_index) ? 1 : 0) + bit_weight_impl<_value, _bit_index + 1>::value;
+        };
+
+        template <uint32_t _value>
+        struct bit_weight_impl<_value, 32>
+        {
+            static const uint8_t value = 0;
+        };
+    }
+
+    template <uint32_t _value>
+    struct bit_weight
+    {
+        static const uint8_t value = detail::bit_weight_impl<_value, 0>::value;
+    };
 }
 
 #else
