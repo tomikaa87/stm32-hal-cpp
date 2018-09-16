@@ -169,11 +169,11 @@ namespace gpio
     template <typename _gpio,
               typename _pins,
               typename _mode,
-              speed::speed_mode _speed,
-              pull::pull_mode _pull>
-    struct gpio_pin
+              pull::pull_mode _pull = pull::nopull,
+              speed::speed_mode _speed = speed::low>
+    struct pin
     {
-        static const auto pin = _pins::value;
+        static const auto pin_value = _pins::value;
         static const auto mode = _mode::value;
         static const auto speed = _speed;
         static const auto pull = _pull;
@@ -183,7 +183,7 @@ namespace gpio
         {
             GPIO_InitTypeDef gpio_init;
             gpio_init.Mode = mode;
-            gpio_init.Pin = pin;
+            gpio_init.Pin = pin_value;
             gpio_init.Speed = speed;
             gpio_init.Pull = pull;
 
@@ -193,12 +193,12 @@ namespace gpio
 
         inline static void deinit()
         {
-            HAL_GPIO_DeInit(gpio::get(), pin);
+            HAL_GPIO_DeInit(gpio::get(), pin_value);
         }
 
         inline static bool lock()
         {
-            return HAL_GPIO_LockPin(gpio::get(), pin) == HAL_OK;
+            return HAL_GPIO_LockPin(gpio::get(), pin_value) == HAL_OK;
         }
     };
 
@@ -218,7 +218,7 @@ namespace gpio
 
         inline static bool read()
         {
-            return HAL_GPIO_ReadPin(pin::gpio::get(), pin::pin) == GPIO_PIN_SET;
+            return HAL_GPIO_ReadPin(pin::gpio::get(), pin::pin_value) == GPIO_PIN_SET;
         }
     };
 
@@ -238,12 +238,12 @@ namespace gpio
 
         inline static void set()
         {
-            HAL_GPIO_WritePin(pin::gpio::get(), pin::pin, GPIO_PIN_SET);
+            HAL_GPIO_WritePin(pin::gpio::get(), pin::pin_value, GPIO_PIN_SET);
         }
 
         inline static void reset()
         {
-            HAL_GPIO_WritePin(pin::gpio::get(), pin::pin, GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(pin::gpio::get(), pin::pin_value, GPIO_PIN_RESET);
         }
 
         inline static void toggle()

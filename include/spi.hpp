@@ -13,6 +13,8 @@
 #include "stm32f1xx_hal.h"
 #include "stm32f1xx_hal_spi.h"
 
+#include "utils.hpp"
+
 namespace spi
 {
     namespace peripheral
@@ -129,9 +131,9 @@ namespace spi
 
     template <typename _peripheral,
               mode::mode _mode = mode::master,
+              uint16_t _baud_prescaler = 16,
               frame_format::frame_format _frame_format = frame_format::motorola,
               first_bit::first_bit _first_bit = first_bit::msb,
-              uint16_t _baud_prescaler = 4,
               data_size::data_size _data_size = data_size::eight_bits,
               direction::direction _direction = direction::two_lines,
               nss::nss _nss = nss::soft,
