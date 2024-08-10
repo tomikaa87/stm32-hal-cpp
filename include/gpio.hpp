@@ -248,7 +248,7 @@ namespace gpio
 
         inline static void toggle()
         {
-            HAL_GPIO_TogglePin(pin::gpio::get(), pin::pin);
+            HAL_GPIO_TogglePin(pin::gpio::get(), pin::pin_value);
         }
     };
 }

@@ -19,18 +19,18 @@ Please keep in mind this library needs a C++11 compatible compiler.
 
 void gpio_test()
 {
-    using pin_a0 = gpio::output_pin<gpio::gpio_pin<
+    using pin_a0 = gpio::output_pin<gpio::pin<
             gpio::port::a,
             gpio::pins<0>,
             gpio::output_pp_mode,
-            gpio::speed::low,
-            gpio::pull::nopull>>;
+            gpio::pull::nopull,
+            gpio::speed::low>>;
 
     pin_a0::init();
     pin_a0::set();
 }
 ```
-In this example, `gpio::gpio_pin` defines a generic structure for the GPIO pin and `gpio::output_pin` defines the necessary functions (`set()`, `reset()`, `toggle()` etc.) for controlling the output pin.
+In this example, `gpio::pin` defines a generic structure for the GPIO pin and `gpio::output_pin` defines the necessary functions (`set()`, `reset()`, `toggle()` etc.) for controlling the output pin.
 
 ## Setup pins B5, B6, B7 and B8 simultaneously as digital push-pull outputs and do stuff with them
 ```cpp
@@ -38,12 +38,12 @@ In this example, `gpio::gpio_pin` defines a generic structure for the GPIO pin a
 
 void gpio_test()
 {
-    using test_pins = gpio::output_pin<gpio::gpio_pin<
+    using test_pins = gpio::output_pin<gpio::pin<
             gpio::port::b,
             gpio::pins<5, 6, 7, 8>,
             gpio::output_pp_mode,
-            gpio::speed::low,
-            gpio::pull::nopull>>;
+            gpio::pull::nopull,
+            gpio::speed::low>>;
 
     test_pins::init();
     test_pins::set();
@@ -56,12 +56,12 @@ Calling `set()` will output a logical 1 on all the pins.
 ```cpp
 void gpio_test()
 {
-    using input_b4 = gpio::input_pin<gpio::gpio_pin<
+    using input_b4 = gpio::input_pin<gpio::pin<
             gpio::port::b,
             gpio::pins<4>,
             gpio::input_mode,
-            gpio::speed::high,
-            gpio::pull::up>>;
+            gpio::pull::up,
+            gpio::speed::low>>;
 
     input_b4::init();
     bool high = input_b4::read();
